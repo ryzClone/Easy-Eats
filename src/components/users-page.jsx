@@ -5,16 +5,29 @@ import Update from "../icons/update.png";
 import Delete from "../icons/delete.png";
 
 export default function Users() {
-  // to Backend ma'lumotlar
+  // to filter
+  const [firtsNames, setFirstnames] = useState("");
+  const [lastNames, setLastnames] = useState("");
+  const [userNames, setUsernames] = useState("");
+  const [apiUpdate, setApiupdate] = useState(false);
+  const [API, setAPI] = useState("");
+  // to beckend
   const [firtsName, setFirstname] = useState("");
   const [lastName, setLastname] = useState("");
   const [userName, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
+
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
+  const [triggerBackend, setTriggerBackend] = useState(true);
 
   useEffect(() => {
-    backendFrom();
-  }, []);
+    if (triggerBackend) {
+      backendFrom();
+      setTriggerBackend(false);
+    }
+  }, [page, size, triggerBackend]);
 
   function backendFrom() {
     const data = {
@@ -24,6 +37,7 @@ export default function Users() {
       page: 0,
       size: 10,
     };
+
     fetch("http://easy-eats.uz:8081/user/list", {
       method: "POST",
       headers: {
@@ -88,6 +102,27 @@ export default function Users() {
       Updates.title = "Edit";
       Deletes.title = "Delete";
 
+      Updates.addEventListener("click", () => {
+        setFirstname(element.firstName);
+        setLastname(element.lastName);
+        setUsername(element.username);
+        setPassword("");
+        setRole(element.role);
+        setApiupdate(true);
+        openModalUpdates(element.id);
+      });
+
+      Deletes.addEventListener("click", () => {
+        const confirmed = window.confirm("Are you sure you want to delete?");
+        if (confirmed) {
+          // O'chirishni amalga oshirish uchun kerakli kodlar
+          alert("Deleted successfully");
+        } else {
+          // O'chirishni bekor qilish
+          alert("Deletion canceled");
+        }
+      });
+
       let imgUpdate = document.createElement("img");
       let imgDelete = document.createElement("img");
 
@@ -109,16 +144,6 @@ export default function Users() {
 
       Tbody.appendChild(tr);
     });
-
-    // <tr>
-    //   <td>1</td>
-    //   <td>ozodbek</td>
-    //   <td>jumayev</td>
-    //   <td>franco</td>
-    //   <td>admin</td>
-    //   <td>21.03.2021</td>
-    //   <td>edit delete</td>
-    // </tr>;
   }
 
   function getAccessToken() {
@@ -128,17 +153,81 @@ export default function Users() {
   function serachClick() {
     backendFrom();
   }
-  function updateClick() {
-    setFirstname("", () => {
-      backendFrom();
-    });
-    setLastname("", () => {
-      backendFrom();
-    });
-    setUsername("", () => {
-      backendFrom();
-    });
+
+  function clearClick() {
+    setFirstname("");
+    setLastname("");
+    setUsername("");
+    setTriggerBackend(true);
   }
+
+  // ADD USER modal ###############################
+  function openModalAdduser() {
+    document.querySelector(".modal-overlay").style.display = "flex";
+    setAPI("/auth/register");
+  }
+
+  function openModalUpdates(id) {
+    document.querySelector(".modal-overlay").style.display = "flex";
+    setAPI(`/user/update/${id}`);
+  }
+
+  function closeModalAdduser() {
+    document.querySelector(".modal-overlay").style.display = "none";
+    setFirstname("");
+    setLastname("");
+    setUsername("");
+    setPassword("");
+    setRole("");
+    setApiupdate(false);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      firstName: firtsName,
+      lastName: lastName,
+      username: userName,
+      password: password,
+      role: role,
+    };
+    if (apiUpdate) {
+      fetch(`http://easy-eats.uz:8081${API}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("updates", data);
+          closeModalAdduser();
+          // window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      fetch(`http://easy-eats.uz:8081${API}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("addUser", data);
+          closeModalAdduser();
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
 
   return (
     <div className="user">
@@ -148,30 +237,30 @@ export default function Users() {
             <div className="user-inputs-items">
               <input
                 type="text"
-                name=""
-                id=""
-                value={firtsName}
+                name="firstnames"
+                id="firstnames"
+                value={firtsNames}
                 placeholder="Firstname"
                 className="user-inputs-items-input"
-                onChange={(e) => setFirstname(e.target.value)}
+                onChange={(e) => setFirstnames(e.target.value)}
               />
               <input
                 type="text"
-                name=""
-                id=""
-                value={lastName}
+                name="lastnames"
+                id="lastnames"
+                value={lastNames}
                 placeholder="Lastname"
                 className="user-inputs-items-input"
-                onChange={(e) => setLastname(e.target.value)}
+                onChange={(e) => setLastnames(e.target.value)}
               />
               <input
                 type="text"
-                name=""
-                id=""
-                value={userName}
+                name="usernames"
+                id="usernames"
+                value={userNames}
                 placeholder="Username"
                 className="user-inputs-items-input"
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => setUsernames(e.target.value)}
               />
             </div>
 
@@ -182,16 +271,78 @@ export default function Users() {
               >
                 Search
               </button>
-              <button
-                className="btn-clear cursor"
-                onClick={() => updateClick()}
-              >
+              <button className="btn-clear cursor" onClick={() => clearClick()}>
                 Clear
               </button>
             </div>
           </div>
 
-          <button className="btn-add cursor">Add User</button>
+          <>
+            <button
+              id="openModalBtn"
+              className="btn-add cursor"
+              onClick={() => openModalAdduser()}
+            >
+              Add User
+            </button>
+
+            <div className="modal-overlay">
+              <div className="modal">
+                <button className="close-btn" onClick={closeModalAdduser}>
+                  X
+                </button>
+                <h2>Add User</h2>
+                <form onSubmit={handleSubmit}>
+                  <div className="form-group">
+                    <label htmlFor="firstname">Firstname:</label>
+                    <input
+                      type="text"
+                      id="firstname"
+                      value={firtsName}
+                      onChange={(e) => setFirstname(e.target.value)}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="lastname">Lastname:</label>
+                    <input
+                      type="text"
+                      id="lastname"
+                      value={lastName}
+                      onChange={(e) => setLastname(e.target.value)}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="username">Username:</label>
+                    <input
+                      type="text"
+                      id="username"
+                      value={userName}
+                      onChange={(e) => setUsername(e.target.value)}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="password">Password:</label>
+                    <input
+                      type="password"
+                      id="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="role">Role:</label>
+                    <input
+                      type="text"
+                      id="role"
+                      value={role}
+                      onChange={(e) => setRole(e.target.value)}
+                    />
+                  </div>
+                  <button type="submit">Submit</button>
+                </form>
+              </div>
+            </div>
+          </>
         </div>
 
         <div className="user-table">
@@ -218,6 +369,7 @@ export default function Users() {
             <tbody id="table-tbody"></tbody>
           </table>
         </div>
+
         <div></div>
       </div>
     </div>
