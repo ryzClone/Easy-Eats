@@ -16,7 +16,7 @@ const EasyEats = () => {
   const Role = localStorage.getItem("role").toLowerCase();
 
   useEffect(() => {
-    const data = localStorage.getItem("jwtToken"); // 'key' nomli ma'lumotni olish
+    const data = localStorage.getItem("jwtToken");
 
     if (!data) {
       window.location.pathname = "/";

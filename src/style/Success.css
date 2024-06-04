@@ -1,0 +1,25 @@
+.Success {
+    min-width: 300px;
+    position: fixed;
+    right: 0.8%;
+    top: 2%;
+    padding: 10px 20px;
+    z-index: 10;
+    border-radius: 5px;
+    /* Yuvarlak kengaytma uchun border-radius */
+    color: #333;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.Success-img{
+    width: 25px;
+    height: 25px;
+}
+.Success-text{
+    font-size: 16px;
+    font-weight: 600;
+}

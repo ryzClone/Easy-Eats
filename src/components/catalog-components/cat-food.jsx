@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
-import "../style/categories.css";
-import { APIS } from "../API/api";
-import Success from "./Success";
+import { APIS } from "../../API/api";
+import Success from "../Success";
 
-export default function Categories() {
+export default function CatFoods() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isUpdateModal, setisUpdateModal] = useState(false);
-
-  const [ImgId, setImgId] = useState(0);
+  const [ImgId, setImgId] = useState("");
   const [formData, setFormData] = useState({
     categoriesImg: "",
     categoriesTitle: "",
   });
-
   const [name, setName] = useState("");
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [size, setSize] = useState(3);
   const [sizeList, setSizeList] = useState(6);
 
@@ -25,8 +21,6 @@ export default function Categories() {
   const [isDisabled, setIsDisabled] = useState(true);
 
   const [triggerBackend, setTriggerBackend] = useState(true);
-
-  const [updateId, setUpdateid] = useState("");
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -49,7 +43,7 @@ export default function Categories() {
           console.error("Xatolik:", error); // Xatolikni konsolga chiqarish
         });
     }
-    setImgId(0);
+    setImgId("");
   };
 
   const handleChange = (e) => {
@@ -75,7 +69,6 @@ export default function Categories() {
         })
         .then((data) => {
           setImgId(data.data.id);
-          setIsDisabled(false);
         })
         .catch((error) => {
           console.error("Xatolik:", error); // Xatolikni konsolga chiqarish
@@ -144,7 +137,7 @@ export default function Categories() {
       .then((response) => response.json())
       .then((data) => {
         myCategoriesBlock(data);
-        setSizeList(6);
+        setSizeList(3);
       })
       .catch((error) => {
         console.log(error);
@@ -198,16 +191,7 @@ export default function Categories() {
       BlockBtnsBody.appendChild(BlockBtnsBodyItemsLeft);
 
       BlockViewBtn.addEventListener("click", () => {
-        window.location.pathname = "/easy-eats/catigories-foods";
-      });
-
-      BlockEditBtn.addEventListener("click", () => {
-        openUpdateModal(true);
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          categoriesTitle: element.name,
-        }));
-        setUpdateid(element.id);
+        window.location.pathname = "/easy-eats/catigories-foods-meals";
       });
 
       BlockDeleteBtn.addEventListener("click", () => {
@@ -281,88 +265,19 @@ export default function Categories() {
     setTriggerBackend(true);
   }
 
-  function openUpdateModal(event) {
-    setisUpdateModal(event);
-  }
-
-  function handleUpdateModal(e) {
-    e.preventDefault();
-
-    const data = {
-      name: formData.categoriesTitle,
-      imageId: 20,
-    };
-
-    console.log(data);
-
-    fetch(`${APIS}category/update/${updateId}`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${getAccessToken()}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    setisUpdateModal(false);
-  }
-
-  const handleChangeUpdate = (e) => {
-    const { name, value } = e.target;
-
-    if (name === "categoriesImg") {
-      const fileInput = e.target.files[0]; // Rasm faylini olish
-      const formData = new FormData();
-      formData.append("file", fileInput); // Rasm faylini FormData ga qo'shish
-
-      fetch(`${APIS}attach/upload`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${getAccessToken()}`,
-        },
-        body: formData, // FormData obyektini POST so'roviga qo'shish
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setImgId(data.data.id);
-          setIsDisabled(false);
-        })
-        .catch((error) => {
-          console.error("Xatolik:", error); // Xatolikni konsolga chiqarish
-        });
-    }
-
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
   return (
     <div className="categories">
       <div className="categories-body">
         <div className="categories-url">
-          <div className="categories-url-text">categories - </div>
+          <div className="categories-url-text">categories - foods</div>
 
           <div className="categories-url-body">
             <div className="user-inputs-body">
               <div className="user-inputs-items">
                 <input
                   type="text"
-                  name="name"
-                  id="name"
+                  name="firstnames"
+                  id="firstnames"
                   value={name}
                   placeholder="Firstname"
                   className="user-inputs-items-input"
@@ -426,48 +341,6 @@ export default function Categories() {
               </div>
             </div>
           )}
-
-          {isUpdateModal && (
-            <div
-              id="updateModal"
-              className="updateModal"
-              style={{ display: "block" }}
-            >
-              <div className="updateModal-content">
-                <span
-                  className="closeUpdate"
-                  onClick={() => setisUpdateModal(false)}
-                >
-                  &times;
-                </span>
-                <h2>Update Categories</h2>
-                <form onSubmit={handleUpdateModal}>
-                  <div className="Updateform-group">
-                    <label htmlFor="categoriesImg">Image</label>
-                    <input
-                      type="file"
-                      id="categoriesImg"
-                      name="categoriesImg"
-                      onChange={handleChangeUpdate}
-                      className="image-input"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="categoriesTitle">Title</label>
-                    <input
-                      type="text"
-                      id="categoriesTitle"
-                      name="categoriesTitle"
-                      value={formData.categoriesTitle}
-                      onChange={handleChangeUpdate}
-                    />
-                  </div>
-                  <button>Update Categories</button>
-                </form>
-              </div>
-            </div>
-          )}
-
           {renderSuccessMessage()}
         </div>
 

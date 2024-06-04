@@ -5,6 +5,7 @@ import Logo from "../icons/logo.png";
 import Hide from "../icons/hide.png";
 import View from "../icons/view.png";
 import { useNavigate } from "react-router-dom";
+import { APIS } from "../API/api";
 
 export default function LoginPage() {
   const [login, setName] = useState("");
@@ -22,7 +23,7 @@ export default function LoginPage() {
       field: login,
       object: password,
     };
-    fetch("http://easy-eats.uz:8081/auth/login", {
+    fetch(`${APIS}auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

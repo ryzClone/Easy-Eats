@@ -3,6 +3,8 @@ import "../style/User.css";
 
 import Update from "../icons/update.png";
 import Delete from "../icons/delete.png";
+import Success from "./Success";
+import { APIS } from "../API/api";
 
 export default function Users() {
   // to filter
@@ -22,6 +24,10 @@ export default function Users() {
   const [size, setSize] = useState(10);
   const [triggerBackend, setTriggerBackend] = useState(true);
 
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [text, setText] = useState("");
+  const [color, setColor] = useState(true);
+
   useEffect(() => {
     if (triggerBackend) {
       backendFrom();
@@ -38,7 +44,7 @@ export default function Users() {
       size: 10,
     };
 
-    fetch("http://easy-eats.uz:8081/user/list", {
+    fetch(`${APIS}user/list`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${getAccessToken()}`,
@@ -115,8 +121,30 @@ export default function Users() {
       Deletes.addEventListener("click", () => {
         const confirmed = window.confirm("Are you sure you want to delete?");
         if (confirmed) {
+          setTimeout(() => {
+            setShowSuccess(false);
+            window.location.reload();
+          }, 3000);
           // O'chirishni amalga oshirish uchun kerakli kodlar
-          alert("Deleted successfully");
+          fetch(`${APIS}user/delete/${element.id}`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${getAccessToken()}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              setShowSuccess(true);
+              setText(data.message);
+              setColor(data.success);
+            })
+            .catch((error) => {
+              setShowSuccess(true);
+              setText(error.message);
+              setColor(error.success);
+            });
         } else {
           // O'chirishni bekor qilish
           alert("Deletion canceled");
@@ -164,12 +192,12 @@ export default function Users() {
   // ADD USER modal ###############################
   function openModalAdduser() {
     document.querySelector(".modal-overlay").style.display = "flex";
-    setAPI("/auth/register");
+    setAPI("auth/register");
   }
 
   function openModalUpdates(id) {
     document.querySelector(".modal-overlay").style.display = "flex";
-    setAPI(`/user/update/${id}`);
+    setAPI(`user/update/${id}`);
   }
 
   function closeModalAdduser() {
@@ -189,10 +217,16 @@ export default function Users() {
       lastName: lastName,
       username: userName,
       password: password,
-      role: role,
+      role: role.toUpperCase(),
     };
+
+    setTimeout(() => {
+      setShowSuccess(false);
+      window.location.reload();
+    }, 3000);
+
     if (apiUpdate) {
-      fetch(`http://easy-eats.uz:8081${API}`, {
+      fetch(`${APIS}${API}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
@@ -202,15 +236,19 @@ export default function Users() {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("updates", data);
           closeModalAdduser();
-          // window.location.reload();
+          setShowSuccess(true);
+          setText(data.message);
+          setColor(data.success);
         })
         .catch((error) => {
-          console.log(error);
+          closeModalAdduser();
+          setShowSuccess(true);
+          setText(error.message);
+          setColor(error.success);
         });
     } else {
-      fetch(`http://easy-eats.uz:8081${API}`, {
+      fetch(`${APIS}${API}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -219,14 +257,25 @@ export default function Users() {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("addUser", data);
           closeModalAdduser();
-          window.location.reload();
+          setShowSuccess(true);
+          setText(data.message);
+          setColor(data.success);
         })
         .catch((error) => {
-          console.log(error);
+          closeModalAdduser();
+          setShowSuccess(true);
+          setText(error.message);
+          setColor(error.success);
         });
     }
+  };
+
+  const renderSuccessMessage = () => {
+    if (showSuccess) {
+      return <Success title={text} success={color} />;
+    }
+    return null;
   };
 
   return (
@@ -287,7 +336,7 @@ export default function Users() {
             </button>
 
             <div className="modal-overlay">
-              <div className="modal">
+              <div className="modals">
                 <button className="close-btn" onClick={closeModalAdduser}>
                   X
                 </button>
@@ -369,7 +418,7 @@ export default function Users() {
             <tbody id="table-tbody"></tbody>
           </table>
         </div>
-
+        {renderSuccessMessage()}
         <div></div>
       </div>
     </div>

@@ -1,0 +1,331 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+}
+.categories-body{
+    display: flex;
+    flex-direction: column;
+}
+.categories-url{
+    padding: 10px 10px 10px 15px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+/* Categories styles */
+.categories-body-block {
+    margin: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+}
+
+/* Block styles */
+.CatBlock {
+    width: 23%;
+    height: 500px;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+@media (max-width:1420px){
+    .CatBlock {
+        width: 31%;
+        height: 300px;
+        border-radius: 5px;
+        position: relative;
+        transition: all 0.3s ease;
+        background-color: white;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+    }
+}
+
+.CatBlockImg {
+    width: 100%;
+    height: 60%;
+    background-size: inherit;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.CatBlockImgBody {
+    width: 100%;
+    padding: 5px;
+}
+
+.CatBlockTitle,
+.CatBlockText {
+    margin: 5px 0;
+}
+.CatBlockText{
+    float: right;
+}
+.CatBlockText:hover{
+    text-decoration: underline;
+    transform: scale(1.1);
+}
+.CatBlockTitle{
+    font-size: 20px;
+    font-weight: 700;
+}
+.BlockFullUpdate{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 6px;
+    right: 7px;
+}
+.categories-url{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.categories-url-body{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* MODAL ######################### */
+
+.categories-url-add-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.categories-url-add-button:hover {
+    background-color: #0056b3;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.4s;
+}
+.modal-content h2{
+    margin-bottom: 20px;
+}
+.img-update-moda{
+    max-width: 25px;
+    max-height: 25px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Update modal ###########################################################*/
+
+.updateModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.updateModal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.4s;
+}
+
+.updateModal-content h2 {
+    margin-bottom: 20px;
+}
+
+.closeUpdate {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.closeUpdate:hover,
+.closeUpdate:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.Updateform-group {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.Updateform-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.Updateform-group input,
+.Updateform-group textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+/* BlockBodyBtn ##################### */
+.BlockBtnsBody{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    margin-top: 15px;
+}
+.BlockBtnsBodyItemsRight{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.BlockBtnsBodyItemsLeft{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.BlockDeleteBtn{
+    background-color: red;
+}
+.BlockEditBtn{
+    background-color: #0056b3;
+}
+.BlockViewBtn{
+    background-color: #051d5b;
+}
+.BlockDeleteBtn:hover , .BlockEditBtn:hover , .BlockViewBtn:hover{
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
+/* Page next ########################################################## */
+.pageNext{
+    width: 100%;
+    padding-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.pageNextBtn{
+    padding: 5px;
+    border: 1px solid #0056b3;
+}
+.pageNextBtn {
+    width: 38px;
+    height: 38px;
+    background-color: #fff;
+    border-radius: 48px;
+    border: 1px solid #14519f;
+    transition: all 0.3s ease;
+    margin: 0 5px;
+}
+
+.pageNextBtn::after {
+    content: "\279C";
+    font-size: 18px;
+    color: #14519f;
+    transition: all 0.3s ease;
+}
+
+.pageList{
+    width: 38px;
+    height: 38px;
+    background-color: #fff;
+    border-radius: 48px;
+    color: #14519f;
+    border: 1px solid #14519f;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+}
+.pageNextBtn.pagination-button.prev {
+    transform: rotate(180deg);
+}
+
+.pageNextBtn.pagination-button.next {
+    transform: rotate(0deg);
+}
