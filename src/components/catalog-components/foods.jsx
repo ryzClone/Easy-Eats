@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
-import "../style/categories.css";
-import { APIS } from "../API/api";
-import Success from "./Success";
-import { useNavigate } from "react-router-dom";
+import { APIS } from "../../API/api";
+import Success from "../Success";
+import { useLocation } from "react-router-dom";
 
-export default function Categories() {
+export default function CatFoods() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isUpdateModal, setisUpdateModal] = useState(false);
-
-  const [ImgId, setImgId] = useState(0);
+  const [ImgId, setImgId] = useState("");
+  
   const [formData, setFormData] = useState({
-    categoriesImg: 0,
+    categoriesImg: "",
     categoriesTitle: "",
   });
-  console.log();
 
-  const navigate = useNavigate();
+  const location = useLocation();
+
   const [name, setName] = useState("");
+  const [minPrice, setminPrice] = useState(0);
+  const [maxPrice, setmaxPrice] = useState(0);
+  const [description, setDescription] = useState("");
+  const [categoryId, setCategoryId] = useState("");
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(12);
+  const [size, setSize] = useState(3);
   const [sizeList, setSizeList] = useState(6);
 
   const [showSuccess, setShowSuccess] = useState(false);
@@ -29,15 +31,8 @@ export default function Categories() {
 
   const [triggerBackend, setTriggerBackend] = useState(true);
 
-  const [updateId, setUpdateid] = useState("");
-
   const openModal = () => {
     setIsModalOpen(true);
-    setFormData((prevState) => ({
-      ...prevState,
-      categoriesImg: "",
-      categoriesTitle: "",
-    }));
   };
 
   const closeModal = () => {
@@ -57,7 +52,7 @@ export default function Categories() {
           console.error("Xatolik:", error); // Xatolikni konsolga chiqarish
         });
     }
-    setImgId(0);
+    setImgId("");
   };
 
   const handleChange = (e) => {
@@ -83,7 +78,6 @@ export default function Categories() {
         })
         .then((data) => {
           setImgId(data.data.id);
-          setIsDisabled(false);
         })
         .catch((error) => {
           console.error("Xatolik:", error); // Xatolikni konsolga chiqarish
@@ -107,6 +101,7 @@ export default function Categories() {
       name: formData.categoriesTitle,
       imageId: ImgId,
     };
+
     fetch(`${APIS}category/add`, {
       method: "POST",
       headers: {
@@ -131,16 +126,31 @@ export default function Categories() {
       StartBack();
       setTriggerBackend(false);
     }
+
+    if (location.state) {
+      setCategoryId(location.state);
+    }
   }, [size, page, triggerBackend]);
 
   function StartBack() {
+    if (minPrice === 0) {
+      setminPrice("");
+    }
+    if (maxPrice === 0) {
+      setmaxPrice("");
+    }
+
     const data = {
       name: name,
+      minPrice: Number(minPrice),
+      maxPrice: Number(maxPrice),
+      description: description,
+      categoryId: categoryId.categoryId,
       page: page,
       size: size,
     };
 
-    fetch(`${APIS}category/list`, {
+    fetch(`${APIS}food/list`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${getAccessToken()}`,
@@ -151,7 +161,7 @@ export default function Categories() {
       .then((response) => response.json())
       .then((data) => {
         myCategoriesBlock(data);
-        setSizeList(6);
+        setSizeList(3);
       })
       .catch((error) => {
         console.log(error);
@@ -160,6 +170,7 @@ export default function Categories() {
 
   function myCategoriesBlock(data) {
     const BlockBody = document.querySelector(".categories-body-block");
+    console.log(data);
     BlockBody.innerHTML = "";
 
     data.data.list.forEach((element) => {
@@ -168,6 +179,7 @@ export default function Categories() {
         BlockImgBody = document.createElement("div"),
         BlockTitle = document.createElement("div"),
         BlockText = document.createElement("div"),
+        BlockPrice = document.createElement("div"),
         BlockBtnsBody = document.createElement("div"),
         BlockBtnsBodyItemsRight = document.createElement("div"),
         BlockBtnsBodyItemsLeft = document.createElement("div"),
@@ -177,13 +189,19 @@ export default function Categories() {
 
       Block.className = "CatBlock";
 
-      BlockImg.src = element.imageUrl; // Tasvir manbasini o'rnatish
+      BlockImg.src = element.image; // Tasvir manbasini o'rnatish
       BlockImg.className = "CatBlockImg";
 
       BlockImgBody.className = "CatBlockImgBody"; // BlockImgBody uchun klassni o'rnatish
 
       BlockTitle.textContent = element.name; // Sarlavha matnini o'rnatish
       BlockTitle.className = "CatBlockTitle";
+
+      BlockText.textContent = element.description;
+      BlockText.className = "CatBlockText";
+
+      BlockPrice.textContent = "Price: " + element.price;
+      BlockText.className = "CatBlockPrice";
 
       BlockBtnsBody.className = "BlockBtnsBody";
       BlockBtnsBodyItemsRight.className = "BlockBtnsBodyItemsRight";
@@ -205,18 +223,7 @@ export default function Categories() {
       BlockBtnsBody.appendChild(BlockBtnsBodyItemsLeft);
 
       BlockViewBtn.addEventListener("click", () => {
-        navigate("/easy-eats/catigories-food", {
-          state: { categoryId: element.id },
-        });
-      });
-
-      BlockEditBtn.addEventListener("click", () => {
-        openUpdateModal(true);
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          categoriesTitle: element.name,
-        }));
-        setUpdateid(element.id);
+        window.location.pathname = "/easy-eats/catigories-foods-meals";
       });
 
       BlockDeleteBtn.addEventListener("click", () => {
@@ -254,6 +261,7 @@ export default function Categories() {
 
       BlockImgBody.appendChild(BlockTitle);
       BlockImgBody.appendChild(BlockText);
+      BlockImgBody.appendChild(BlockPrice);
       Block.appendChild(BlockImg); // Tasvirni `Block` ga qo'shish
       Block.appendChild(BlockImgBody); // BlockImgBody'ni `Block` ga qo'shish
       Block.appendChild(BlockBtnsBody);
@@ -287,82 +295,17 @@ export default function Categories() {
 
   function clearClick() {
     setName("");
+    setminPrice(0);
+    setmaxPrice(0);
+    setDescription("");
     setTriggerBackend(true);
   }
-
-  function openUpdateModal(event) {
-    setisUpdateModal(event);
-  }
-
-  function handleUpdateModal(e) {
-    e.preventDefault();
-
-    const data = {
-      name: formData.categoriesTitle,
-      imageId: ImgId,
-    };
-    console.log(data);
-    fetch(`${APIS}category/update/${updateId}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${getAccessToken()}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    setisUpdateModal(false);
-  }
-
-  const handleChangeUpdate = (e) => {
-    const { name, value } = e.target;
-
-    if (name === "categoriesImg") {
-      const fileInput = e.target.files[0]; // Rasm faylini olish
-      const formData = new FormData();
-      formData.append("file", fileInput); // Rasm faylini FormData ga qo'shish
-
-      fetch(`${APIS}attach/upload`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${getAccessToken()}`,
-        },
-        body: formData, // FormData obyektini POST so'roviga qo'shish
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setImgId(data.data.id);
-          setIsDisabled(false);
-          console.log(data);
-        })
-        .catch((error) => {
-          console.error("Xatolik:", error); // Xatolikni konsolga chiqarish
-        });
-    }
-
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
 
   return (
     <div className="categories">
       <div className="categories-body">
         <div className="categories-url">
-          <div className="categories-url-text">categories - </div>
+          <div className="categories-url-text">categories - foods</div>
 
           <div className="categories-url-body">
             <div className="user-inputs-body">
@@ -372,9 +315,36 @@ export default function Categories() {
                   name="name"
                   id="name"
                   value={name}
-                  placeholder="Firstname"
+                  placeholder="Name"
                   className="user-inputs-items-input"
                   onChange={(e) => setName(e.target.value)}
+                />
+                <input
+                  type="number"
+                  name="minPrice"
+                  id="minPrice"
+                  value={minPrice}
+                  placeholder="minPrice"
+                  className="user-inputs-items-input"
+                  onChange={(e) => setminPrice(e.target.value)}
+                />
+                <input
+                  type="number"
+                  name="maxPrice"
+                  id="maxPrice"
+                  value={maxPrice}
+                  placeholder="maxPrice"
+                  className="user-inputs-items-input"
+                  onChange={(e) => setmaxPrice(e.target.value)}
+                />
+                <input
+                  type="text"
+                  name="description"
+                  id="description"
+                  value={description}
+                  placeholder="description"
+                  className="user-inputs-items-input"
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
 
@@ -405,7 +375,7 @@ export default function Categories() {
                 <span className="close" onClick={closeModal}>
                   &times;
                 </span>
-                <h2>Add Categories</h2>
+                <h2>Add Food</h2>
                 <form onSubmit={handleSubmit}>
                   <div className="form-group">
                     <label htmlFor="categoriesImg">Image</label>
@@ -429,37 +399,6 @@ export default function Categories() {
                       required
                     />
                   </div>
-                  <button disabled={isDisabled}>Add Categories</button>
-                </form>
-              </div>
-            </div>
-          )}
-
-          {isUpdateModal && (
-            <div
-              id="updateModal"
-              className="updateModal"
-              style={{ display: "block" }}
-            >
-              <div className="updateModal-content">
-                <span
-                  className="closeUpdate"
-                  onClick={() => setisUpdateModal(false)}
-                >
-                  &times;
-                </span>
-                <h2>Update Categories</h2>
-                <form onSubmit={handleUpdateModal}>
-                  <div className="Updateform-group">
-                    <label htmlFor="categoriesImg">Image</label>
-                    <input
-                      type="file"
-                      id="categoriesImg"
-                      name="categoriesImg"
-                      onChange={handleChangeUpdate}
-                      className="image-input"
-                    />
-                  </div>
                   <div className="form-group">
                     <label htmlFor="categoriesTitle">Title</label>
                     <input
@@ -467,10 +406,23 @@ export default function Categories() {
                       id="categoriesTitle"
                       name="categoriesTitle"
                       value={formData.categoriesTitle}
-                      onChange={handleChangeUpdate}
+                      onChange={handleChange}
+                      required
                     />
                   </div>
-                  <button>Update Categories</button>
+                  <div className="form-group">
+                    <label htmlFor="categoriesTitle">Title</label>
+                    <input
+                      type="text"
+                      id="desp"
+                      name="categoriesTitle"
+                      value={formData.categoriesTitle}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <button disabled={isDisabled}>Add Categories</button>
                 </form>
               </div>
             </div>

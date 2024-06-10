@@ -93,10 +93,10 @@ const EasyEats = () => {
                 <div className="li-block-text">Catigories</div>
               </div>
             </Link>
-            <Link to="/easy-eats/meals" className="li-text" title="Meals">
+            <Link to="/easy-eats/foods" className="li-text" title="Foods">
               <div className="li-block">
                 <img src={Meals} alt="" />
-                <div className="li-block-text">Meals</div>
+                <div className="li-block-text">Foods</div>
               </div>
             </Link>
           </ul>
