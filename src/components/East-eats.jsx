@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import "../style/Easy-eats.css";
 
-import Logo from "../icons/logo.png";
-import Users from "../icons/users.png";
-import Categories from "../icons/categories.png";
-import Meals from "../icons/meals.png";
+import Logo from "../icons/Easy-eats/Home.svg";
+import Users from "../icons/Easy-eats/2 Friends.svg";
+import Usersgr from "../icons/Easy-eats/2 Friendsgr.png";
+import Categories from "../icons/Easy-eats/Category.svg";
+import Meals from "../icons/Easy-eats/Salami Pizza.svg";
 
 import LogOut from "../icons/logOut.png";
 
@@ -13,42 +14,53 @@ const EasyEats = () => {
   const [gych, setGych] = useState(false);
 
   const Name = localStorage.getItem("userName");
-  const Role = localStorage.getItem("role").toLowerCase();
+
+  const location = useLocation();
+  const [activeLink, setActiveLink] = useState(location.pathname);
 
   useEffect(() => {
     const data = localStorage.getItem("jwtToken");
-
     if (!data) {
       window.location.pathname = "/";
     }
-  }, []);
+
+    setActiveLink(location.pathname);
+  }, [location]);
 
   function Gych() {
     setGych(!gych);
-    const EasyMain = document.querySelector(".easy-main");
-    const EasyHeader = document.querySelector(".easy-header");
-    const EasySection = document.querySelector(".easy-section");
     const EasyAside = document.querySelector(".easy-aside");
+    const LiBlockText = document.querySelectorAll(".li-block-text");
     const EasyEatsText = document.querySelector(".easy-eats-body-title-text");
-    const EasyEatsBody = document.querySelector(".easy-aside-body");
-    const EasyEatsBodyTitle = document.querySelector(".easy-eats-body-title");
+    const LiBlock = document.querySelectorAll(".li-text");
 
     if (gych) {
-      EasyMain.style.gridTemplateColumns = "repeat(12, 1fr)";
-      EasyAside.style.gridArea = " 1 / 1 / 15 / 3";
-      EasyEatsBody.style.alignItems = "flex-start";
-      EasyHeader.style.gridArea = "1 / 3 / 2 / 13";
-      EasySection.style.gridArea = "2 / 3 / 15 / 13";
-      EasyEatsText.style.display = "block";
-      EasyEatsBodyTitle.style.justifyContent = "flex-start";
+      EasyAside.style.width = "15%";
+
+      LiBlockText.forEach((item) => {
+        item.style.display = "block";
+      });
+
+      LiBlock.forEach((item) => {
+        item.style.justifyContent = "flex-start";
+      });
+
+      setTimeout(() => {
+        EasyEatsText.style.display = "block";
+      }, 150);
     } else {
-      EasyMain.style.gridTemplateColumns = "repeat(36, minmax(0, 1fr))";
-      EasyAside.style.gridArea = "1 / 1 / 15 / 3";
-      EasyEatsBody.style.alignItems = "center";
-      EasyHeader.style.gridArea = "1 / 3 / 2 / 37";
-      EasySection.style.gridArea = "2 / 3 / 15 / 37";
-      EasyEatsText.style.display = "none";
-      EasyEatsBodyTitle.style.justifyContent = "center";
+      EasyAside.style.width = "5%";
+
+      LiBlockText.forEach((item) => {
+        item.style.display = "none";
+      });
+
+      LiBlock.forEach((item) => {
+        item.style.justifyContent = "center";
+      });
+      setTimeout(() => {
+        EasyEatsText.style.display = "none";
+      }, 100);
     }
   }
 
@@ -71,31 +83,51 @@ const EasyEats = () => {
           </div>
 
           <ul>
-            <Link to="/easy-eats" className="li-text" title="Easy Eats">
+            <Link
+              to="/easy-eats"
+              className={`li-text ${
+                activeLink === "/easy-eats" ? "active" : ""
+              }`}
+              title="Easy Eats"
+            >
               <div className="li-block">
-                <img src={Logo} alt="" />
+                <img src={Logo} className="li-block-img" />
                 <div className="li-block-text">Easy Eats</div>
               </div>
             </Link>
-            <Link to="/easy-eats/users" className="li-text" title="Users">
+            <Link
+              to="/easy-eats/users"
+              className={`li-text ${
+                activeLink === "/easy-eats/users" ? "active" : ""
+              }`}
+              title="Users"
+            >
               <div className="li-block">
-                <img src={Users} alt="" />
+                <img src={Users} className="li-block-img" />
                 <div className="li-block-text">Users</div>
               </div>
             </Link>
             <Link
               to="/easy-eats/catigories"
-              className="li-text"
+              className={`li-text ${
+                activeLink === "/easy-eats/catigories" ? "active" : ""
+              }`}
               title="Catigories"
             >
               <div className="li-block">
-                <img src={Categories} alt="" />
+                <img src={Categories} className="li-block-img" />
                 <div className="li-block-text">Catigories</div>
               </div>
             </Link>
-            <Link to="/easy-eats/foods" className="li-text" title="Foods">
+            <Link
+              to="/easy-eats/foods"
+              className={`li-text ${
+                activeLink === "/easy-eats/foods" ? "active" : ""
+              }`}
+              title="Foods"
+            >
               <div className="li-block">
-                <img src={Meals} alt="" />
+                <img src={Meals} className="li-block-img" />
                 <div className="li-block-text">Foods</div>
               </div>
             </Link>
@@ -103,38 +135,47 @@ const EasyEats = () => {
         </div>
       </div>
 
-      <div className="easy-header">
-        <div className="easy-aside-gych" id="gych-block" onClick={() => Gych()}>
-          <div className="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
+      <div className="section-body">
+        <div className="easy-header">
+          <div className="easy-header-left">
+            <div
+              className="easy-aside-gych"
+              id="gych-block"
+              onClick={() => Gych()}
+            >
+              <div className="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+            <div className="easy-headr-body-text">
+              <div className="easy-headr-text-subtitle">
+                <img src={Usersgr} alt="" />
+              </div>
+              <div className="easy-headr-text-title"> {Name}</div>
+            </div>
+          </div>
+
+          <div className="easy-headr-body">
+            <div className="easy-headr-body-icons">
+              <ul>
+                <Link
+                  to="/"
+                  className="easy-aside-gych"
+                  title="Log Out"
+                  onClick={(e) => localStorage.removeItem("jwtToken")}
+                >
+                  <img src={LogOut} alt="" />
+                </Link>
+              </ul>
+            </div>
           </div>
         </div>
 
-        <div className="easy-headr-body">
-          <div className="easy-headr-body-text">
-            <div className="easy-headr-text-title"> {Name}</div>
-            <div className="easy-headr-text-subtitle"> {Role}</div>
-          </div>
-
-          <div className="easy-headr-body-icons">
-            <ul>
-              <Link
-                to="/"
-                className="easy-aside-gych"
-                title="Log Out"
-                onClick={(e) => localStorage.removeItem("jwtToken")}
-              >
-                <img src={LogOut} alt="" />
-              </Link>
-            </ul>
-          </div>
+        <div className="easy-section">
+          <Outlet />
         </div>
-      </div>
-
-      <div className="easy-section">
-        <Outlet />
       </div>
     </main>
   );

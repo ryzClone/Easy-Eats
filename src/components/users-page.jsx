@@ -5,6 +5,7 @@ import Update from "../icons/update.png";
 import Delete from "../icons/delete.png";
 import Success from "./Success";
 import { APIS } from "../API/api";
+import { User_base } from "../Base/base";
 
 export default function Users() {
   // to filter
@@ -30,36 +31,37 @@ export default function Users() {
 
   useEffect(() => {
     if (triggerBackend) {
-      backendFrom();
+      // backendFrom();
+      getTableexperes(User_base);
       setTriggerBackend(false);
     }
   }, [page, size, triggerBackend]);
 
-  function backendFrom() {
-    const data = {
-      firstName: firtsName,
-      lastName: lastName,
-      username: userName,
-      page: 0,
-      size: 10,
-    };
+  // function backendFrom() {
+  //   const data = {
+  //     firstName: firtsName,
+  //     lastName: lastName,
+  //     username: userName,
+  //     page: 0,
+  //     size: 10,
+  //   };
 
-    fetch(`${APIS}user/list`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${getAccessToken()}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        getTableexperes(data.data.list);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  //   fetch(`${APIS}user/list`, {
+  //     method: "POST",
+  //     headers: {
+  //       Authorization: `Bearer ${getAccessToken()}`,
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(data),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       getTableexperes(data.data.list);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
 
   function getTableexperes(data) {
     const Tbody = document.getElementById("table-tbody");
@@ -179,7 +181,7 @@ export default function Users() {
   }
 
   function serachClick() {
-    backendFrom();
+    // backendFrom();
   }
 
   function clearClick() {
@@ -406,11 +408,11 @@ export default function Users() {
             </colgroup>
             <thead>
               <tr>
-                <th>id</th>
-                <th>firstname</th>
-                <th>lastname</th>
-                <th>username</th>
-                <th>role</th>
+                <th>Id</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Username</th>
+                <th>Role</th>
                 <th>Created at</th>
                 <th></th>
               </tr>

@@ -19,7 +19,7 @@ export default function Categories() {
   const [name, setName] = useState("");
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(12);
-  const [sizeList, setSizeList] = useState(6);
+  const [sizeList, setSizeList] = useState(3);
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [text, setText] = useState("");

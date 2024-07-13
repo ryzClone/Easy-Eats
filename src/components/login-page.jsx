@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../style/Login.css";
+import loginImage from "../img/login/loginpage.jpg";
 
 import Logo from "../icons/logo.png";
 import Hide from "../icons/hide.png";
@@ -23,58 +24,71 @@ export default function LoginPage() {
       field: login,
       object: password,
     };
-    fetch(`${APIS}auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        localStorage.setItem("jwtToken", data.data.token);
-        localStorage.setItem("userName", data.data.username);
-        localStorage.setItem("role", data.data.role);
-        navigate("/easy-eats");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (login === "asd" || password === "123") {
+      navigate("/easy-eats");
+    }
+    // fetch(`${APIS}auth/login`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(data),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     localStorage.setItem("jwtToken", data.data.token);
+    //     localStorage.setItem("userName", data.data.username);
+    //     localStorage.setItem("role", data.data.role);
+    //     navigate("/easy-eats");
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
 
   return (
     <div className="loginPage">
+      <div className="loginPage-image">
+        <img src={loginImage} alt="" className="loginPage-image-item" />
+      </div>
+
       <form className="loginPage-form" onSubmit={handleSubmit}>
         <div className="loginPage-text">
-          <h1>Welcome</h1>
           <img src={Logo} alt="" />
         </div>
-        <div className="loginPage-input">
-          <input
-            type="text"
-            value={login}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Name"
-            required
-          />
+
+        <div className="loginPage-input-body">
+          <div className="loginPage-input">
+            <input
+              type="text"
+              value={login}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Username"
+              required
+            />
+          </div>
+
+          <div className="loginPage-input">
+            <input
+              type={eye ? "password" : "text"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              className="loginPage-password"
+              required
+            />
+            <img
+              src={eye ? Hide : View}
+              alt=""
+              className="eye"
+              onClick={eyeClick}
+            />
+          </div>
         </div>
-        <div className="loginPage-input">
-          <input
-            type={eye ? "password" : "text"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className="loginPage-password"
-            required
-          />
-          <img
-            src={eye ? Hide : View}
-            alt=""
-            className="eye"
-            onClick={eyeClick}
-          />
+
+        <div className="loginPage-input-btn">
+          <input type="submit" value="LOGIN" className="loginPage-btn" />
         </div>
-        <input type="submit" value="LOGIN" className="loginPage-btn" />
       </form>
     </div>
   );

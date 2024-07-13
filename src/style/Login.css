@@ -1,22 +1,34 @@
-.loginPage{
+.loginPage {
     width: 100vw;
     height: 100vh;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
     align-items: center;
-    padding: 15px;
-    background: #f2f2f2;
-}
-.loginPage-form{
-    width: 390px;
-    background: #fff;
-    border-radius: 10px;
+    background: #ffffff;
     overflow: hidden;
-    padding: 77px 55px 33px;
+}
+
+/* Loginpage Image ##################################################3 */
+
+.loginPage-image {
+    width: 60%;
+    height: 100%;
+    display: flex;
+}
+
+.loginPage-image-item {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Loginpage Form ##################################################3 */
+.loginPage-form{
+    width: 40%;
+    background: #fff;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 45px;
+    padding: 0px 7.1%;
 }
 .loginPage-text{
     width: 100%;
@@ -27,45 +39,46 @@
     gap: 26px;
     margin-bottom: 30px;
 }
-.loginPage-text h1{
-    display: block;
-    font-family: Poppins-Bold;
-    font-size: 30px;
-    color: #333;
-    line-height: 1.2;
-    text-align: center;
-}
 .loginPage-text img{
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
 }
-
+.loginPage-input-body{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 .loginPage-input input{
-    font-family: Poppins-Regular;
-    font-size: 15px;
     color: #555;
-    line-height: 1.2;
-    display: block;
     width: 100%;
-    height: 45px;
-    background: 0 0;
     padding: 0 5px;
     outline: none;
     border: none;
-    border-bottom: 1px solid #aca5a5;
-
+    background-color: #F5F5F5;
+    padding: 17px 0px 17px 20px;
+    border-radius: 30px;
+    font-family: 'Poppins';
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 36px;
 }
 .loginPage-input{
     position: relative;
 }
 .eye {
-    width: 13px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
     position: absolute;
     top: 50%;
-    right: 5px;
+    right: 5%;
     transform: translateY(-50%);
     cursor: pointer;
+}
+.loginPage-input-btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .loginPage-btn{
     margin-top: 30px;
@@ -78,25 +91,57 @@
     justify-content: center;
     align-items: center;
     padding: 0 20px;
-    width: 100%;
+    width: 50%;
     height: 50px;
     outline: none;
     border-radius: 50px;
     border: none;
     font-weight: 600;
     cursor: pointer;
-    background-size: 300% 100%;
-    -moz-transition: all .4s ease-in-out;
-    -o-transition: all .4s ease-in-out;
-    -webkit-transition: all .4s ease-in-out;
-    transition: all .4s ease-in-out;
-    background-image: linear-gradient(to right, #25aae1, #40e495, #30dd8a, #2bb673);
-    box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.75);
+    background-color: #CF2222;
+    transition: all 0.3s ease;
 }
-.loginPage-btn:hover {
-    background-position: 100% 0;
-    -moz-transition: all .4s ease-in-out;
-    -o-transition: all .4s ease-in-out;
-    -webkit-transition: all .4s ease-in-out;
-    transition: all .4s ease-in-out;
+.loginPage-btn:hover{
+    opacity: 95%;
+}
+
+@media (max-width: 1366px) {
+        /* Loginpage Image ##################################################3 */
+    
+        .loginPage-image {
+            width: 60%;
+            height: 100%;
+            display: flex;
+        }
+    
+        .loginPage-image-item {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    
+        /* Loginpage Form ##################################################3 */
+        
+        .loginPage-form {
+            gap: 35px;
+            padding: 0px 4%;
+        }
+
+    
+        .loginPage-input input {
+            width: 100%;
+            padding: 15px 0px 15px 20px;
+                font-size: 20px;
+                    line-height: 20px;
+        }
+    
+        .eye {
+            width: 17px;
+            height: 17px;
+        }
+    
+        .loginPage-btn {
+            width: 60%;
+            height: 40px;
+        }
 }
