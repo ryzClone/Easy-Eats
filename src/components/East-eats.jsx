@@ -18,14 +18,14 @@ const EasyEats = () => {
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
 
-  useEffect(() => {
-    const data = localStorage.getItem("jwtToken");
-    if (!data) {
-      window.location.pathname = "/";
-    }
+  // useEffect(() => {
+  //   const data = localStorage.getItem("jwtToken");
+  //   if (!data) {
+  //     window.location.pathname = "/";
+  //   }
 
-    setActiveLink(location.pathname);
-  }, [location]);
+  //   setActiveLink(location.pathname);
+  // }, [location]);
 
   function Gych() {
     setGych(!gych);
