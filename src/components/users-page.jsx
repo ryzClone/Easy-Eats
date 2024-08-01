@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "../style/User.css";
 
-import Update from "../icons/update.png";
-import Delete from "../icons/delete.png";
+import Update from "../icons/users/restart.png";
+import Delete from "../icons/users/Delete.png";
 import Success from "./Success";
 import { APIS } from "../API/api";
 import { User_base } from "../Base/base";
+
+import Search from "../icons/users/Search.png";
+import Clear from "../icons/users/Close.png";
+import AddUser from "../icons/users/Add.png";
+import Close from "../icons/users/CloseModal.png";
+import Pagination from "./Pagination";
 
 export default function Users() {
   // to filter
@@ -14,15 +20,16 @@ export default function Users() {
   const [userNames, setUsernames] = useState("");
   const [apiUpdate, setApiupdate] = useState(false);
   const [API, setAPI] = useState("");
-  // to beckend
+  // to backend
   const [firtsName, setFirstname] = useState("");
   const [lastName, setLastname] = useState("");
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
 
-  const [page, setPage] = useState(0);
-  const [size, setSize] = useState(10);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [itemsPerPage] = useState(5);
+  const [totalPages, setTotalPages] = useState(User_base.length);
   const [triggerBackend, setTriggerBackend] = useState(true);
 
   const [showSuccess, setShowSuccess] = useState(false);
@@ -32,42 +39,22 @@ export default function Users() {
   useEffect(() => {
     if (triggerBackend) {
       // backendFrom();
-      getTableexperes(User_base);
+      const startIndex = currentPage * itemsPerPage;
+      const paginatedData = User_base.slice(
+        startIndex,
+        startIndex + itemsPerPage
+      );
+      setTotalPages(Math.ceil(User_base.length / itemsPerPage));
+      getTableexperes(paginatedData);
       setTriggerBackend(false);
     }
-  }, [page, size, triggerBackend]);
-
-  // function backendFrom() {
-  //   const data = {
-  //     firstName: firtsName,
-  //     lastName: lastName,
-  //     username: userName,
-  //     page: 0,
-  //     size: 10,
-  //   };
-
-  //   fetch(`${APIS}user/list`, {
-  //     method: "POST",
-  //     headers: {
-  //       Authorization: `Bearer ${getAccessToken()}`,
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(data),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       getTableexperes(data.data.list);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
+  }, [currentPage, itemsPerPage, triggerBackend]);
 
   function getTableexperes(data) {
     const Tbody = document.getElementById("table-tbody");
 
     Tbody.innerHTML = "";
-    let a = page + 1;
+    let a = currentPage * itemsPerPage + 1;
     data.forEach((element) => {
       let tr = document.createElement("tr");
 
@@ -185,9 +172,9 @@ export default function Users() {
   }
 
   function clearClick() {
-    setFirstname("");
-    setLastname("");
-    setUsername("");
+    setFirstnames("");
+    setLastnames("");
+    setUsernames("");
     setTriggerBackend(true);
   }
 
@@ -273,6 +260,11 @@ export default function Users() {
     }
   };
 
+  function handlePageChange(newPage) {
+    setCurrentPage(newPage);
+    setTriggerBackend(true);
+  }
+
   const renderSuccessMessage = () => {
     if (showSuccess) {
       return <Success title={text} success={color} />;
@@ -320,10 +312,10 @@ export default function Users() {
                 className="btn-search cursor"
                 onClick={() => serachClick()}
               >
-                Search
+                <img src={Search} alt="" />
               </button>
               <button className="btn-clear cursor" onClick={() => clearClick()}>
-                Clear
+                <img src={Clear} alt="" />
               </button>
             </div>
           </div>
@@ -334,68 +326,69 @@ export default function Users() {
               className="btn-add cursor"
               onClick={() => openModalAdduser()}
             >
-              Add User
+              <div>
+                <img src={AddUser} alt="" />
+                <span>Add</span>
+              </div>
             </button>
 
             <div className="modal-overlay">
               <div className="modals">
                 <button className="close-btn" onClick={closeModalAdduser}>
-                  X
+                  <img src={Close} alt="" />
                 </button>
-                <h2>Add User</h2>
-                <form onSubmit={handleSubmit}>
-                  <div className="form-group">
-                    <label htmlFor="firstname">Firstname:</label>
-                    <input
-                      type="text"
-                      id="firstname"
-                      value={firtsName}
-                      onChange={(e) => setFirstname(e.target.value)}
-                    />
+                <h2>Update User</h2>
+
+                <form onSubmit={handleSubmit} className="modal-form">
+                  <input
+                    type="text"
+                    id="firstname"
+                    value={firtsName}
+                    placeholder="Firstname"
+                    onChange={(e) => setFirstname(e.target.value)}
+                  />
+
+                  <input
+                    type="text"
+                    id="lastname"
+                    value={lastName}
+                    placeholder="Lastname"
+                    onChange={(e) => setLastname(e.target.value)}
+                  />
+
+                  <input
+                    type="text"
+                    id="username"
+                    value={userName}
+                    placeholder="Username"
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+
+                  <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+
+                  <input
+                    type="text"
+                    id="role"
+                    value={role}
+                    placeholder="Role"
+                    onChange={(e) => setRole(e.target.value)}
+                  />
+
+                  <div>
+                    <span onClick={closeModalAdduser}>Cancel</span>
+                    <button type="submit">Add</button>
                   </div>
-                  <div className="form-group">
-                    <label htmlFor="lastname">Lastname:</label>
-                    <input
-                      type="text"
-                      id="lastname"
-                      value={lastName}
-                      onChange={(e) => setLastname(e.target.value)}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="username">Username:</label>
-                    <input
-                      type="text"
-                      id="username"
-                      value={userName}
-                      onChange={(e) => setUsername(e.target.value)}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="password">Password:</label>
-                    <input
-                      type="password"
-                      id="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="role">Role:</label>
-                    <input
-                      type="text"
-                      id="role"
-                      value={role}
-                      onChange={(e) => setRole(e.target.value)}
-                    />
-                  </div>
-                  <button type="submit">Submit</button>
                 </form>
               </div>
             </div>
           </>
         </div>
-
         <div className="user-table">
           <table className="user-table-body">
             <colgroup>
@@ -420,8 +413,14 @@ export default function Users() {
             <tbody id="table-tbody"></tbody>
           </table>
         </div>
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+
         {renderSuccessMessage()}
-        <div></div>
       </div>
     </div>
   );

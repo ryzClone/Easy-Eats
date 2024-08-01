@@ -8,7 +8,7 @@ import Usersgr from "../icons/Easy-eats/2 Friendsgr.png";
 import Categories from "../icons/Easy-eats/Category.svg";
 import Meals from "../icons/Easy-eats/Salami Pizza.svg";
 
-import LogOut from "../icons/logOut.png";
+import LogOut from "../icons/Easy-eats/logOut.png";
 
 const EasyEats = () => {
   const [gych, setGych] = useState(false);
@@ -18,14 +18,14 @@ const EasyEats = () => {
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
 
-  // useEffect(() => {
-  //   const data = localStorage.getItem("jwtToken");
-  //   if (!data) {
-  //     window.location.pathname = "/";
-  //   }
+  useEffect(() => {
+    // const data = localStorage.getItem("jwtToken");
+    // if (!data) {
+    //   window.location.pathname = "/";
+    // }
 
-  //   setActiveLink(location.pathname);
-  // }, [location]);
+    setActiveLink(location.pathname);
+  }, [location]);
 
   function Gych() {
     setGych(!gych);
@@ -166,7 +166,11 @@ const EasyEats = () => {
                   title="Log Out"
                   onClick={(e) => localStorage.removeItem("jwtToken")}
                 >
-                  <img src={LogOut} alt="" />
+                  <img
+                    src={LogOut}
+                    alt=""
+                    style={{ width: "40px", height: "40px" }}
+                  />
                 </Link>
               </ul>
             </div>

@@ -1,0 +1,32 @@
+/* Pagination.css */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination-button {
+    margin: 0 12px;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 0.73px solid #D9D9D9;
+    font-family: 'Poppins';
+    font-size: 20.48px;
+    font-weight: 600;
+    color: #585858;
+}
+
+.pagination-button.active {
+    background-color: #4AD775;
+    color: #fff;
+    border-color: #4AD775;
+}
+
+.pagination-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}

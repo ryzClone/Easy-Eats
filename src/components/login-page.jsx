@@ -3,8 +3,8 @@ import "../style/Login.css";
 import loginImage from "../img/login/loginpage.jpg";
 
 import Logo from "../icons/logo.png";
-import Hide from "../icons/hide.png";
-import View from "../icons/view.png";
+import Hide from "../icons/Login/hide.png";
+import View from "../icons/Login/view.png";
 import { useNavigate } from "react-router-dom";
 import { APIS } from "../API/api";
 

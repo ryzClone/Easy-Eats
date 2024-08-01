@@ -4,6 +4,18 @@ import { APIS } from "../API/api";
 import Success from "./Success";
 import { useNavigate } from "react-router-dom";
 
+import Search from "../icons/users/Search.png";
+import Clear from "../icons/users/Close.png";
+import AddUser from "../icons/users/Add.png";
+import { Categories_base } from "../Base/base";
+import Pagination from "./Pagination";
+
+import UpdateIcon from "../icons/category/restart.png";
+import DeleteIcon from "../icons/category/Delete.png";
+import ViewIcon from "../icons/category/Eye.png";
+
+import Close from "../icons/category/Close.png";
+
 export default function Categories() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateModal, setisUpdateModal] = useState(false);
@@ -13,13 +25,12 @@ export default function Categories() {
     categoriesImg: 0,
     categoriesTitle: "",
   });
-  console.log();
 
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(12);
-  const [sizeList, setSizeList] = useState(3);
+  const [size, setSize] = useState(10);
+  const [totalPages, setTotalPages] = useState(Categories_base.length);
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [text, setText] = useState("");
@@ -128,41 +139,49 @@ export default function Categories() {
 
   useEffect(() => {
     if (triggerBackend) {
-      StartBack();
+      // StartBack();
+      const startIndex = page * size;
+      const paginatedData = Categories_base.slice(
+        startIndex,
+        startIndex + size
+      );
+      setTotalPages(Math.ceil(Categories_base.length / size));
       setTriggerBackend(false);
+      myCategoriesBlock(paginatedData);
     }
   }, [size, page, triggerBackend]);
 
-  function StartBack() {
-    const data = {
-      name: name,
-      page: page,
-      size: size,
-    };
+  // function StartBack() {
+  //   const data = {
+  //     name: name,
+  //     page: page,
+  //     size: size,
+  //   };
 
-    fetch(`${APIS}category/list`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${getAccessToken()}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        myCategoriesBlock(data);
-        setSizeList(6);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  //   fetch(`${APIS}category/list`, {
+  //     method: "POST",
+  //     headers: {
+  //       Authorization: `Bearer ${getAccessToken()}`,
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(data),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       myCategoriesBlock(data);
+  //       setSizeList(6);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
 
   function myCategoriesBlock(data) {
+    console.log(data);
     const BlockBody = document.querySelector(".categories-body-block");
     BlockBody.innerHTML = "";
 
-    data.data.list.forEach((element) => {
+    data.forEach((element) => {
       const Block = document.createElement("div"),
         BlockImg = document.createElement("img"),
         BlockImgBody = document.createElement("div"),
@@ -173,36 +192,46 @@ export default function Categories() {
         BlockBtnsBodyItemsLeft = document.createElement("div"),
         BlockViewBtn = document.createElement("button"),
         BlockEditBtn = document.createElement("button"),
-        BlockDeleteBtn = document.createElement("button");
+        BlockDeleteBtn = document.createElement("button"),
+        BlockPngBtnUpdate = document.createElement("img"),
+        BlockPngBtnDelete = document.createElement("img"),
+        BlockPngBtnView = document.createElement("img");
 
-      Block.className = "CatBlock";
+      Block.className = "CatBlock"; // Adding class to main block
+      BlockPngBtnUpdate.src = UpdateIcon;
+      BlockPngBtnDelete.src = DeleteIcon;
+      BlockPngBtnView.src = ViewIcon;
 
-      BlockImg.src = element.imageUrl; // Tasvir manbasini o'rnatish
+      BlockPngBtnUpdate.className = "CatBlockBtnItemsIcon";
+      BlockPngBtnDelete.className = "CatBlockBtnItemsIcon";
+      BlockPngBtnView.className = "CatBlockBtnItemsIcon";
+
+      BlockImg.src = element.imageUrl;
       BlockImg.className = "CatBlockImg";
 
-      BlockImgBody.className = "CatBlockImgBody"; // BlockImgBody uchun klassni o'rnatish
+      BlockImgBody.className = "CatBlockImgBody";
 
-      BlockTitle.textContent = element.name; // Sarlavha matnini o'rnatish
+      BlockTitle.textContent = element.name;
       BlockTitle.className = "CatBlockTitle";
 
       BlockBtnsBody.className = "BlockBtnsBody";
       BlockBtnsBodyItemsRight.className = "BlockBtnsBodyItemsRight";
       BlockBtnsBodyItemsLeft.className = "BlockBtnsBodyItemsLeft";
 
-      BlockViewBtn.className = "BlockViewBtn";
-      BlockEditBtn.className = "BlockEditBtn";
-      BlockDeleteBtn.className = "BlockDeleteBtn";
+      BlockViewBtn.className = "CatBlockBtnItems";
+      BlockEditBtn.className = "CatBlockBtnItems";
+      BlockDeleteBtn.className = "CatBlockBtnItems";
 
-      BlockViewBtn.innerHTML = "View";
-      BlockEditBtn.innerHTML = "Update";
-      BlockDeleteBtn.innerHTML = "Delete";
+      BlockViewBtn.appendChild(BlockPngBtnView);
+      BlockEditBtn.appendChild(BlockPngBtnUpdate);
+      BlockDeleteBtn.appendChild(BlockPngBtnDelete);
 
-      BlockBtnsBodyItemsRight.appendChild(BlockEditBtn);
-      BlockBtnsBodyItemsRight.appendChild(BlockDeleteBtn);
-      BlockBtnsBodyItemsLeft.appendChild(BlockViewBtn);
+      BlockBtnsBodyItemsRight.appendChild(BlockViewBtn);
+      BlockBtnsBodyItemsLeft.appendChild(BlockEditBtn);
+      BlockBtnsBodyItemsLeft.appendChild(BlockDeleteBtn);
 
-      BlockBtnsBody.appendChild(BlockBtnsBodyItemsRight);
       BlockBtnsBody.appendChild(BlockBtnsBodyItemsLeft);
+      BlockBtnsBody.appendChild(BlockBtnsBodyItemsRight);
 
       BlockViewBtn.addEventListener("click", () => {
         navigate("/easy-eats/catigories-food", {
@@ -222,43 +251,42 @@ export default function Categories() {
       BlockDeleteBtn.addEventListener("click", () => {
         const confirmed = window.confirm("Are you sure you want to delete?");
         if (confirmed) {
-          setTimeout(() => {
-            setShowSuccess(false);
-            window.location.reload();
-          }, 3000);
-
           fetch(`${APIS}category/delete/${element.id}`, {
             method: "DELETE",
             headers: {
               Authorization: `Bearer ${getAccessToken()}`,
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
           })
             .then((response) => response.json())
             .then((data) => {
               setShowSuccess(true);
               setText(data.message);
               setColor(data.success);
+              if (data.success) {
+                setTimeout(() => {
+                  setShowSuccess(false);
+                  window.location.reload();
+                }, 3000);
+              }
             })
             .catch((error) => {
               setShowSuccess(true);
               setText(error.message);
-              setColor(error.success);
+              setColor(false);
             });
         } else {
-          // O'chirishni bekor qilish
           alert("Deletion canceled");
         }
       });
 
       BlockImgBody.appendChild(BlockTitle);
       BlockImgBody.appendChild(BlockText);
-      Block.appendChild(BlockImg); // Tasvirni `Block` ga qo'shish
-      Block.appendChild(BlockImgBody); // BlockImgBody'ni `Block` ga qo'shish
+      Block.appendChild(BlockImg);
+      Block.appendChild(BlockImgBody);
       Block.appendChild(BlockBtnsBody);
 
-      BlockBody.appendChild(Block); // Hamma narsani `BlockBody` ga qo'shish
+      BlockBody.appendChild(Block);
     });
   }
 
@@ -269,20 +297,9 @@ export default function Categories() {
     return null;
   };
 
-  function prevPage() {
-    if (page >= 1) {
-      setPage(page - 1);
-    }
-  }
-
-  function nextPage() {
-    if (page + 1 * size <= sizeList) {
-      setPage(page + 1);
-    }
-  }
-
   function serachClick() {
-    StartBack();
+    // StartBack();
+    myCategoriesBlock(Categories_base);
   }
 
   function clearClick() {
@@ -358,12 +375,15 @@ export default function Categories() {
     });
   };
 
+  function handlePageChange(newPage) {
+    setPage(newPage);
+    setTriggerBackend(true);
+  }
+
   return (
     <div className="categories">
       <div className="categories-body">
         <div className="categories-url">
-          <div className="categories-url-text">categories - </div>
-
           <div className="categories-url-body">
             <div className="user-inputs-body">
               <div className="user-inputs-items">
@@ -373,7 +393,7 @@ export default function Categories() {
                   id="name"
                   value={name}
                   placeholder="Firstname"
-                  className="user-inputs-items-input"
+                  className="user-inputs-items-input categories-input"
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
@@ -383,19 +403,22 @@ export default function Categories() {
                   className="btn-search cursor"
                   onClick={() => serachClick()}
                 >
-                  Search
+                  <img src={Search} alt="" />
                 </button>
                 <button
                   className="btn-clear cursor"
                   onClick={() => clearClick()}
                 >
-                  Clear
+                  <img src={Clear} alt="" />
                 </button>
               </div>
             </div>
 
             <button className="categories-url-add-button" onClick={openModal}>
-              Add
+              <div>
+                <img src={AddUser} alt="" />
+                <span>Add</span>
+              </div>
             </button>
           </div>
 
@@ -403,32 +426,33 @@ export default function Categories() {
             <div id="myModal" className="modal" style={{ display: "block" }}>
               <div className="modal-content">
                 <span className="close" onClick={closeModal}>
-                  &times;
+                  <img src={Close} alt="" />
                 </span>
                 <h2>Add Categories</h2>
                 <form onSubmit={handleSubmit}>
                   <div className="form-group">
-                    <label htmlFor="categoriesImg">Image</label>
                     <input
                       type="file"
                       id="categoriesImg"
                       name="categoriesImg"
                       onChange={handleChange}
                       className="image-input"
+                      placeholder="Choose image"
                       required
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="categoriesTitle">Title</label>
                     <input
                       type="text"
                       id="categoriesTitle"
                       name="categoriesTitle"
                       value={formData.categoriesTitle}
                       onChange={handleChange}
+                      placeholder="Title"
                       required
                     />
                   </div>
+                  <button>Cancel</button>
                   <button disabled={isDisabled}>Add Categories</button>
                 </form>
               </div>
@@ -475,23 +499,15 @@ export default function Categories() {
               </div>
             </div>
           )}
-
           {renderSuccessMessage()}
         </div>
 
-        <div className="pageNext">
-          <button
-            className="pagination-button prev pageNextBtn"
-            onClick={prevPage}
-          />
-          <div className="pageList">{page + 1}</div>
-          <button
-            className="pagination-button next pageNextBtn"
-            onClick={nextPage}
-          />
-        </div>
-
         <div className="categories-body-block"></div>
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );

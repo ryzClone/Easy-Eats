@@ -1,3 +1,7 @@
+import Img1 from "../img/catalog/1.jpg";
+import Img2 from "../img/catalog/2.jpg";
+import Img3 from "../img/catalog/3.jpg";
+
 export const User_base = [
   {
     firstName: "jumayev",
@@ -34,4 +38,154 @@ export const User_base = [
     role: "Admin",
     registeredAt: "12.06.2024",
   },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+  {
+    firstName: "jumayev",
+    lastName: "Ozodbek",
+    username: "JumayeV",
+    role: "Admin",
+    registeredAt: "12.06.2024",
+  },
+];
+
+export const Foods_base = [
+  { name: "", price: "Jumayev", description: "1", categoryId: "" },
+];
+
+export const Categories_base = [
+  { imageUrl: Img1, name: "Jumayev", id: "1" },
+  { imageUrl: Img2, name: "ozodbek", id: "2" },
+  { imageUrl: Img3, name: "asd", id: "3" },
 ];
