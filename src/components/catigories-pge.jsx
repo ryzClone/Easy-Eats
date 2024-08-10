@@ -118,6 +118,7 @@ export default function Categories() {
       name: formData.categoriesTitle,
       imageId: ImgId,
     };
+    console.log(data);
     fetch(`${APIS}category/add`, {
       method: "POST",
       headers: {
@@ -234,7 +235,7 @@ export default function Categories() {
       BlockBtnsBody.appendChild(BlockBtnsBodyItemsRight);
 
       BlockViewBtn.addEventListener("click", () => {
-        navigate("/easy-eats/catigories-food", {
+        navigate("/easy-eats/foods", {
           state: { categoryId: element.id },
         });
       });
@@ -362,7 +363,6 @@ export default function Categories() {
         .then((data) => {
           setImgId(data.data.id);
           setIsDisabled(false);
-          console.log(data);
         })
         .catch((error) => {
           console.error("Xatolik:", error); // Xatolikni konsolga chiqarish
@@ -431,15 +431,14 @@ export default function Categories() {
                 <h2>Add Categories</h2>
                 <form onSubmit={handleSubmit}>
                   <div className="form-group">
-                    <input
-                      type="file"
-                      id="categoriesImg"
-                      name="categoriesImg"
+                    <label
+                      className="custom-file-upload"
                       onChange={handleChange}
-                      className="image-input"
-                      placeholder="Choose image"
                       required
-                    />
+                    >
+                      Choose image
+                      <input type="file" />
+                    </label>
                   </div>
                   <div className="form-group">
                     <input
@@ -452,14 +451,74 @@ export default function Categories() {
                       required
                     />
                   </div>
-                  <button>Cancel</button>
-                  <button disabled={isDisabled}>Add Categories</button>
+                  <div className="modal-add-btn-body">
+                    <button
+                      className="modal-add-btn-cansel"
+                      onClick={closeModal}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="modal-add-btn-send"
+                      disabled={isDisabled}
+                    >
+                      Add
+                    </button>
+                  </div>
                 </form>
               </div>
             </div>
           )}
 
           {isUpdateModal && (
+            <div id="myModal" className="modal" style={{ display: "block" }}>
+              <div className="modal-content">
+                <span className="close" onClick={() => setisUpdateModal(false)}>
+                  <img src={Close} alt="" />
+                </span>
+                <h2>Update Categories</h2>
+                <form onSubmit={(e) => handleUpdateModal(e)}>
+                  <div className="form-group">
+                    <label
+                      className="custom-file-upload"
+                      onChange={handleChange}
+                      required
+                    >
+                      Choose image
+                      <input type="file" />
+                    </label>
+                  </div>
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      id="categoriesTitle"
+                      name="categoriesTitle"
+                      value={formData.categoriesTitle}
+                      onChange={handleChange}
+                      placeholder="Title"
+                      required
+                    />
+                  </div>
+                  <div className="modal-add-btn-body">
+                    <button
+                      className="modal-add-btn-cansel"
+                      onClick={() => setisUpdateModal(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="modal-add-btn-send"
+                      disabled={isDisabled}
+                    >
+                      Add
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* {isUpdateModal && (
             <div
               id="updateModal"
               className="updateModal"
@@ -498,7 +557,7 @@ export default function Categories() {
                 </form>
               </div>
             </div>
-          )}
+          )} */}
           {renderSuccessMessage()}
         </div>
 

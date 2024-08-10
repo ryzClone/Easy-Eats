@@ -41,9 +41,22 @@
     text-align: left;
     color: #9E9E9E;
     outline: none;
-    padding: 12px 0px 12px 24px;
+    padding: 12px 20px;
+    /* o'ng va chap tarafda 20px */
     border-radius: 30px;
-    border: none;
+    border: 2px solid #D1D1D1;
+    /* border qo'shish */
+    transition: border-color 0.3s ease;
+    /* border rangining o'zgarishini silliq qilish */
+}
+
+.user-inputs-items-input:focus {
+    border-color: #7D8C8D;
+    /* fokus holatidagi border rangi */
+    background: #FFFFFF;
+    /* fokus holatidagi background rangi */
+    color: #333333;
+    /* fokus holatidagi matn rangi */
 }
 
 

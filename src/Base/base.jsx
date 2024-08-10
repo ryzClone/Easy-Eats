@@ -181,7 +181,14 @@ export const User_base = [
 ];
 
 export const Foods_base = [
-  { name: "", price: "Jumayev", description: "1", categoryId: "" },
+  {
+    image: Img1,
+    name: "Text",
+    description:
+      "Chicken, pita bread, tomato, cucumber, rice, onion, green, ketchup, sugar, paprika",
+    price: "23.000",
+    categoryId: "",
+  },
 ];
 
 export const Categories_base = [

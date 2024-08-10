@@ -61,9 +61,6 @@
     color: #000;
     margin-bottom: 170px;
 }
-.CatBlockBtnItems{
-
-}
 
 .BlockFullUpdate{
     width: 20px;
@@ -123,7 +120,7 @@
     border-radius: 45px;
 }
 .modal-content h2 {
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     text-align: center;
     color: #130f26;
     font-family: 'Poppins';
@@ -147,24 +144,71 @@
 }
 
 .form-group {
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
+    margin-bottom: 25px;
 }
 
 .form-group input,
 .form-group textarea {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
+    font-family: 'Poppins';
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 36px;
+    text-align: left;
+    color: #555555;
+    background-color: #F5F5F5;
+    padding: 12px 0px 12px 22px;
+    border-radius: 30px;
+    outline: none;
+}
+.custom-file-upload {
+    font-family: 'Poppins';
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 36px;
+    text-align: left;
+    color: #555555;
+    background-color: #F5F5F5;
+    padding: 12px 0px 12px 22px;
+    border-radius: 30px;
+    outline: none;
 }
 
+.custom-file-upload input[type="file"] {
+    display: none;
+}
+.modal-add-btn-body{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+}
+.modal-add-btn-send {
+    width: 185px;
+    height: 65px;
+    border-radius: 60px;
+    text-align: center;
+    color: #fff;
+    font-family: 'Poppins';
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 42px;
+    background-color: #4AD775;
+}
+
+.modal-add-btn-cansel {
+    border: 1px solid #9E9E9E;
+    background-color: #fff;
+    width: 185px;
+    height: 65px;
+    border-radius: 60px;
+    text-align: center;
+    font-family: 'Poppins';
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 42px;
+    color: #9E9E9E;
+}
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -256,6 +300,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 15px;
 }
 .BlockBtnsBodyItemsLeft{
     display: flex;
