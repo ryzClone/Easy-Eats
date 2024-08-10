@@ -183,10 +183,34 @@ export const User_base = [
 export const Foods_base = [
   {
     image: Img1,
-    name: "Text",
+    name: "Text1",
     description:
       "Chicken, pita bread, tomato, cucumber, rice, onion, green, ketchup, sugar, paprika",
-    price: "23.000",
+    price: "20.999",
+    categoryId: "",
+  },
+  {
+    image: Img1,
+    name: "Text2",
+    description:
+      "Chicken, pita bread, tomato, cucumber, rice, onion, green, ketchup, sugar, paprika",
+    price: "30.999",
+    categoryId: "",
+  },
+  {
+    image: Img1,
+    name: "Text3",
+    description:
+      "Chicken, pita bread, tomato, cucumber, rice, onion, green, ketchup, sugar, paprika",
+    price: "15.999",
+    categoryId: "",
+  },
+  {
+    image: Img1,
+    name: "Text4",
+    description:
+      "Chicken, pita bread, tomato, cucumber, rice, onion, green, ketchup, sugar, paprika",
+    price: "40.999",
     categoryId: "",
   },
 ];
