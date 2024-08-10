@@ -37,9 +37,10 @@ export default function CatFoods() {
   const [maxPrice, setmaxPrice] = useState(0);
   const [description, setDescription] = useState("");
   const [categoryId, setCategoryId] = useState("");
+
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(3);
-  const [sizeList, setSizeList] = useState(6);
+  const size = 2;
+  const [totalPages, setTotalPages] = useState(Foods_base.length);
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [text, setText] = useState("");
@@ -96,6 +97,7 @@ export default function CatFoods() {
         })
         .then((data) => {
           setImgId(data.data.id);
+          setIsDisabled(false);
         })
         .catch((error) => {
           console.error("Xatolik:", error); // Xatolikni konsolga chiqarish
@@ -141,9 +143,11 @@ export default function CatFoods() {
 
   useEffect(() => {
     if (triggerBackend) {
-      // StartBack();
-      // setTriggerBackend(false);
-      myCategoriesBlock(Foods_base);
+      const startIndex = page * size;
+      const paginatedData = Foods_base.slice(startIndex, startIndex + size);
+      setTotalPages(Math.ceil(Foods_base.length / size));
+      setTriggerBackend(false);
+      myFoodBlock(paginatedData);
     }
 
     if (location.state) {
@@ -179,15 +183,14 @@ export default function CatFoods() {
     })
       .then((response) => response.json())
       .then((data) => {
-        myCategoriesBlock(data);
-        setSizeList(3);
+        myFoodBlock(data);
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  function myCategoriesBlock(data) {
+  function myFoodBlock(data) {
     const BlockBody = document.querySelector(".categories-body-block");
     console.log(data);
     BlockBody.innerHTML = "";
@@ -370,6 +373,11 @@ export default function CatFoods() {
       });
 
     setisUpdateModal(false);
+  }
+
+  function handlePageChange(newPage) {
+    setPage(newPage);
+    setTriggerBackend(true);
   }
 
   return (
@@ -616,6 +624,11 @@ export default function CatFoods() {
         </div>
 
         <div className="categories-body-block"></div>
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );

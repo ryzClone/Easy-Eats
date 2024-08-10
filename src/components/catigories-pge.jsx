@@ -29,7 +29,7 @@ export default function Categories() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(10);
+  const size = 10;
   const [totalPages, setTotalPages] = useState(Categories_base.length);
 
   const [showSuccess, setShowSuccess] = useState(false);
