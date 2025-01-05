@@ -21,8 +21,10 @@ function App() {
         <Route path="/easy-eats/catigories-food" element={<CatFoot />} />
         <Route path="/easy-eats/catigories-meals" element={<CatMeals />} />
         <Route path="/easy-eats/foods" element={<CatFoods />} />
-        <Route path="*" element={<Error />} />
       </Route>
+
+      {/* Agar noto'g'ri URL kiritsangiz, bu error sahifasiga yo'naltiradi */}
+      <Route path="*" element={<Error />} />
     </Routes>
   );
 }

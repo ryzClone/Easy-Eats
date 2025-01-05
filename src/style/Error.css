@@ -1,0 +1,77 @@
+/* Overall container */
+.error-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: #e5e5e5;
+    padding: 0 20px;
+}
+
+/* Error message box */
+.error-message {
+    text-align: center;
+    background-color: #fff;
+    padding: 40px 50px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Title styling */
+.error-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #721c24;
+    margin-bottom: 20px;
+}
+
+/* Description styling */
+.error-description {
+    font-size: 20px;
+    color: #6c757d;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* Reload button styling */
+.error-btn {
+    padding: 14px 30px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: #f5c6cb;
+    color: #721c24;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.error-btn:hover {
+    background-color: #f1a1b8;
+    transform: scale(1.05);
+}
+
+/* Responsive styling */
+@media (max-width: 600px) {
+    .error-message {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .error-title {
+        font-size: 28px;
+    }
+
+    .error-description {
+        font-size: 18px;
+    }
+
+    .error-btn {
+        font-size: 16px;
+        padding: 12px 24px;
+    }
+}

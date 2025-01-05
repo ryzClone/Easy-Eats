@@ -1,3 +1,4 @@
+/* General styles */
 .loginPage {
     width: 100vw;
     height: 100vh;
@@ -7,8 +8,7 @@
     overflow: hidden;
 }
 
-/* Loginpage Image ##################################################3 */
-
+/* Loginpage Image */
 .loginPage-image {
     width: 60%;
     height: 100%;
@@ -21,8 +21,8 @@
     object-fit: cover;
 }
 
-/* Loginpage Form ##################################################3 */
-.loginPage-form{
+/* Loginpage Form */
+.loginPage-form {
     width: 40%;
     background: #fff;
     display: flex;
@@ -30,7 +30,7 @@
     gap: 45px;
     padding: 0px 7.1%;
 }
-.loginPage-text{
+.loginPage-text {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -39,16 +39,16 @@
     gap: 26px;
     margin-bottom: 30px;
 }
-.loginPage-text img{
+.loginPage-text img {
     width: 60px;
     height: 60px;
 }
-.loginPage-input-body{
+.loginPage-input-body {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
-.loginPage-input input{
+.loginPage-input input {
     color: #555;
     width: 100%;
     padding: 0 5px;
@@ -62,7 +62,7 @@
     font-weight: 400;
     line-height: 36px;
 }
-.loginPage-input{
+.loginPage-input {
     position: relative;
 }
 .eye {
@@ -74,13 +74,13 @@
     transform: translateY(-50%);
     cursor: pointer;
 }
-.loginPage-input-btn{
+.loginPage-input-btn {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.loginPage-btn{
+.loginPage-btn {
     margin-top: 30px;
     font-family: Poppins-Medium;
     font-size: 15px;
@@ -101,47 +101,90 @@
     background-color: #CF2222;
     transition: all 0.3s ease;
 }
-.loginPage-btn:hover{
+.loginPage-btn:hover {
     opacity: 95%;
 }
 
-@media (max-width: 1366px) {
-        /* Loginpage Image ##################################################3 */
-    
-        .loginPage-image {
-            width: 60%;
-            height: 100%;
-            display: flex;
-        }
-    
-        .loginPage-image-item {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    
-        /* Loginpage Form ##################################################3 */
-        
-        .loginPage-form {
-            gap: 35px;
-            padding: 0px 4%;
-        }
+/* Responsive for 1440px */
+@media (max-width: 1440px) {
+    .loginPage-image {
+        width: 55%;
+    }
 
-    
-        .loginPage-input input {
-            width: 100%;
-            padding: 15px 0px 15px 20px;
-                font-size: 20px;
-                    line-height: 20px;
-        }
-    
-        .eye {
-            width: 17px;
-            height: 17px;
-        }
-    
-        .loginPage-btn {
-            width: 60%;
-            height: 40px;
-        }
+    .loginPage-form {
+        width: 45%;
+        padding: 0 6%;
+        gap: 40px;
+    }
+
+    .loginPage-input input {
+        font-size: 22px;
+        padding: 15px 0 15px 20px;
+    }
+
+    .loginPage-btn {
+        width: 55%;
+        height: 45px;
+    }
+
+    .eye {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Responsive for 1920px */
+@media (max-width: 1920px) {
+    .loginPage-image {
+        width: 60%;
+    }
+
+    .loginPage-form {
+        width: 40%;
+        padding: 0 5%;
+        gap: 35px;
+    }
+
+    .loginPage-input input {
+        font-size: 20px;
+        padding: 14px 0 14px 20px;
+    }
+
+    .loginPage-btn {
+        width: 60%;
+        height: 45px;
+    }
+
+    .eye {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* For screens larger than 1920px */
+@media (min-width: 1921px) {
+    .loginPage-image {
+        width: 60%;
+    }
+
+    .loginPage-form {
+        width: 40%;
+        padding: 0 5%;
+        gap: 45px;
+    }
+
+    .loginPage-input input {
+        font-size: 24px;
+        padding: 17px 0 17px 20px;
+    }
+
+    .loginPage-btn {
+        width: 50%;
+        height: 50px;
+    }
+
+    .eye {
+        width: 20px;
+        height: 20px;
+    }
 }
